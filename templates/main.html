@@ -3,6 +3,14 @@
 
 {% block body %}
 
+<h1>{{ logs|length }}</h1> <!--counts # of logs-->
+
+<ul>
+{% for l in logs %}
+	<li> {{ text }} {{ l.timestamp }} </li>
+{% endfor %}
+</ul>
+
 <div class="row">
 
 	<!-- left column -->
@@ -43,7 +51,7 @@
 			{# comment - loop through categories and create checkboxes #}
 			{% for c in categories|sort %}
 			<label class="checkbox">
-			<input type="checkbox" name="categories" value="{{ c|replace(" ","_") }}"> {{ c|title }}
+			<input type="checkbox" name="categories" value="{{ c|replace(" ","_") }}"> {{ c|title }} <!-- c|title gives you title case; c|replace trades out spaces for underscores-->
 			</label>
 			{% endfor %}
 

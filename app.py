@@ -27,10 +27,20 @@ categories = ['web','physical computing','software','video','music','installatio
 # this is our main page
 @app.route("/")
 def index():
+
+	log = models.Log() #JB these three lines added
+	log.text = 'yo yo'
+	log.save()
+
+	#get all logs
+	myLogs = models.Log.objects() #everything inside 
+
+
 	# render the template, pass in the animals dictionary refer to it as 'animals'
 	templateData = {
 		'ideas' : models.Idea.objects(),
-		'categories' : categories
+		'categories' : categories,
+		'logs' : myLogs
 	}
 	return render_template("main.html", **templateData)
 
@@ -62,7 +72,7 @@ def newidea():
 	app.logger.debug(request.form.getlist('categories'))
 
 	# get form data - create new idea
-	idea = models.Idea()
+	idea = models.Idea()  #JB - inside of the models.py object, we're going to get the class Idea
 	idea.creator = request.form.get('creator','anonymous')
 	idea.title = request.form.get('title','no title')
 	idea.slug = slugify(idea.title + " " + idea.creator)
@@ -73,8 +83,11 @@ def newidea():
 
 	return redirect('/ideas/%s' % idea.slug)
 
-@app.route("/ideas/<idea_slug>")
+@app.route("/ideas/<idea_slug>") #JB - this slug can be named anything...it's just for our use
 def idea_display(idea_slug):
+
+	## JB - You could, e.g., @app.route("/ideas/<idea_slug>/<color>/<shape>/")
+	## def idea_display(idea_slug, color, shape):
 
 	# get idea by idea_slug
 	try:
@@ -97,7 +110,7 @@ def idea_comment(idea_id):
 	comment = request.form.get('comment')
 
 	if name == '' or comment == '':
-		# no name or comment, return to page
+		# no name or comment, return to page (JB - this page)
 		return redirect(request.referrer)
 
 

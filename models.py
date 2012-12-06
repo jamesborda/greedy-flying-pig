@@ -2,7 +2,11 @@
 from mongoengine import *
 from datetime import datetime
 
-class Comment(EmbeddedDocument):
+class Log(Document):
+	text = StringField()
+	timestamp = DateTimeField(default=datetime.now()) 
+
+class Comment(EmbeddedDocument): #something you put inside another doc (you never use .save on this)
 	name = StringField()
 	comment = StringField()
 	timestamp = DateTimeField(default=datetime.now())

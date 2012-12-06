@@ -14,7 +14,7 @@
 		<p>
 			<ul>
 			{% for c in idea.categories %}
-			<li>{{ c|replace("_"," ") }}</li>
+			<li>{{ c|replace("_"," ") }}</li> <!--JB - This removes the underscore and returns a space-->
 			{% endfor %}
 			</ul>
 		</p>
