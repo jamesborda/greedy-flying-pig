@@ -1,0 +1,51 @@
+{% extends "layout/main.html" %}
+
+
+{% block body %}
+
+<div class="row">
+
+	<!-- left column -->
+	<div class="span12">
+		<h2>Project: {{ project.title }}</h2>
+		<p>Total Spent: {{ project.total_cost }}</p>
+		<p>(x per person)</p>
+
+		<hr />
+
+		<!-- A TABLE OF ALL PURCHASES -->
+
+		<p>
+			<ul>
+			{% for purchase in project.purchase %}
+			<li>{{ purchase.date }} : {{ purchase.user }} : {{ purchase.description }} : {{ purchase.dollar_amount }}</li> <!--buttons to edit or remove-->
+			{% endfor %}
+			</ul>
+		</p>
+
+		<hr />
+		
+		<!-- A FORM FOR ADDING A NEW PURCHASE -->
+
+		<form method="POST" action="/project/{{ project.id }}">
+			<input type="text" id="date" name="date">
+			<input type="text" id="user" name="user">
+			<input type="text" id="description" name="description">
+			<input type="text" id="dollar_amount" name="dollar_amount">			
+			<label>
+			<button type="submit" class="btn btn-success">Add</button>
+			</label>
+		</form>
+
+	</div>
+
+
+	
+
+</div>
+
+{% endblock %}
+
+
+{% block styles %}{% endblock %}
+{% block scripts %}{% endblock %}

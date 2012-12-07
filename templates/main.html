@@ -3,18 +3,80 @@
 
 {% block body %}
 
-<h1>{{ logs|length }}</h1> <!--counts # of logs-->
+<!-- <h1>{{ logs|length }}</h1> --> <!--counts # of logs-->
 
-<ul>
+<!-- <ul>
 {% for l in logs %}
 	<li> {{ text }} {{ l.timestamp }} </li>
 {% endfor %}
-</ul>
+</ul> -->
+
+<div class="row">
+	<div class="span12"><p>&nbsp;</p></div>
+</div>
 
 <div class="row">
 
+	<div class="span2"></div>
+
+	<form method="POST" action="/projects/add">
+
+	<div class="span8" id="project-collection">
+
+		<div class="row">
+
+			<div class="span5">
+			<legend><h3>Start a Project</h3></legend>
+
+			<label for="title">Project Title</label>
+			<input type="text" id="title" name="title">
+
+			<label for="creator">Creator</label>
+			<input type="text" id="user" name="user">
+
+			</div>
+
+			<div class="span3">
+
+			<h2>
+  			<button type="submit" class="btn btn-large btn-success"><h2>Go!</h2></button>
+			</h2>
+
+			</div>
+
+		</div>
+	</div>
+
+	</form>
+
+	<div class="span2"></div>
+
+</div>
+
+<div class="row">
+	<div class="span12"><p>&nbsp;</p></div>
+</div>
+
+
+<div class="row">
+	<div class="span1"></div>
+	<div class="span10" id="project-collection">
+		<h3>
+  		Recent Projects
+		</h3>
+		<ul>
+			{% for project in projects %}
+				<li> <a href="projects/{{ project.slug }}">{{ project.title }}</a></li>
+			{% endfor %}
+		</ul>
+	</div>
+	<div class="span1"></div>
+</div>
+
+<!-- <div class="row"> -->
+
 	<!-- left column -->
-	<div class="span6">
+<!-- 	<div class="span6">
 		<h3>Submitted Ideas</h3>
 		
 		{% for idea in ideas %}
@@ -51,8 +113,8 @@
 			{# comment - loop through categories and create checkboxes #}
 			{% for c in categories|sort %}
 			<label class="checkbox">
-			<input type="checkbox" name="categories" value="{{ c|replace(" ","_") }}"> {{ c|title }} <!-- c|title gives you title case; c|replace trades out spaces for underscores-->
-			</label>
+			<input type="checkbox" name="categories" value="{{ c|replace(" ","_") }}"> {{ c|title }} --> <!-- c|title gives you title case; c|replace trades out spaces for underscores-->
+<!-- 			</label>
 			{% endfor %}
 
 
@@ -62,7 +124,7 @@
 
 	
 
-</div>
+</div> -->
 
 {% endblock %}
 

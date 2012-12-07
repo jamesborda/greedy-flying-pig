@@ -1,0 +1,35 @@
+{% extends "layout/main.html" %}
+
+
+{% block body %}
+
+<div class="row">
+
+	<!-- left column -->
+	<div class="span12">
+		<h2>Congratulations on finishing: {{ project.title }}</h2>
+		<p>Total Cost: {{ project.total_cost }}</p>
+		<hr>
+		<h3>Total Paid:</h3>
+		{% for user in project.user %}
+		<p>{{ user.name }} : {{ user.total_paid }}</p>
+		{% endfor %}
+
+		<!-- X owes Y $z.zz, etc -->
+
+		<hr>
+
+		<!-- Now place the whole table of expenses -->
+		
+		<hr>
+
+	</div>	
+
+
+</div>
+
+{% endblock %}
+
+
+{% block styles %}{% endblock %}
+{% block scripts %}{% endblock %}
