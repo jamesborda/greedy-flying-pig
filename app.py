@@ -53,7 +53,7 @@ def newproject():
 	project.user.append( temp_user )
 	project.title = request.form.get('title','No Title')
 	project.slug = slugify(project.title + " " + temp_user.name )
-	project.total_cost = Decimal(5.55)
+	project.total_cost = 5.55
 	project.cost_per_user = 5.55
 	# idea.idea = request.form.get('idea','')
 	# idea.categories = request.form.getlist('categories')
@@ -93,9 +93,21 @@ def newpurchase(project_slug):
 
 	temp_purchase.save()
 
+	# user = models.User.objects.get(_id=temp_purchase.user._id)
+	# user.total_paid = user.total_paid + temp_purchase.dollar_amount
+	# user.save()
+
 	project = models.Project.objects.get(slug=project_slug)
 
 	project.purchase.append(temp_purchase)
+
+	# project.total_cost = project.total_cost + Decimal(temp_purchase.dollar_amount)
+
+	# i = 0
+	# for user in project.user:
+	# 	i = i + 1
+
+	# project.cost_per_user = project.total_cost / i
 
 	project.save()
 
@@ -106,7 +118,7 @@ def newperson(project_slug):
 
 	temp_person = models.User()
 	temp_person.name = request.form.get('new_user')
-	temp_person.total_paid = 0.0
+	temp_person.total_paid = 0.00
 
 	temp_person.save();
 
