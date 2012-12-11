@@ -1,3 +1,4 @@
+<<<<<<< HEAD
 ## MongoDB library - Mongoengine
 
 [Mongoengine](http://mongoengine.org/)
@@ -80,3 +81,9 @@ Open your .gitignore file and add '.env' on a new line. Save the file.
 or
 
 	foreman start
+=======
+greedy-flying-pig
+=================
+
+ITP Dynamic Web Final
+>>>>>>> d3730d70d7d7fc20bc84dd0a1ac204f062e4b454
