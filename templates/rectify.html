@@ -21,6 +21,33 @@
 
 		<!-- Now place the whole table of expenses -->
 		
+		<div class="row">
+			<div class="span12">
+		<!-- A TABLE OF ALL PURCHASES -->
+
+				<p>
+					<table class="table table-condensed table-striped">
+						<thead>
+							<th>Purchase Date</th>
+							<th>Buyer</th>
+							<th>Description</th>
+							<th>$$</th>
+							<th>&nbsp;</th>
+						</thead>
+						{% for purchase in project.purchase %}
+						<tr>
+							<td>{{ purchase.date }}</td>
+							<td>{{ purchase.user }}</td>
+							<td>{{ purchase.description }}</td>
+							<td>{{ purchase.dollar_amount }}</td>
+							<td><!--buttons to edit or remove--></td>
+						<tr>
+						{% endfor %}
+					</table>
+				</p>
+			</div>
+		</div>
+
 		<hr>
 
 	</div>	

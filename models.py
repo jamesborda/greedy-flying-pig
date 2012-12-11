@@ -29,13 +29,15 @@ from datetime import datetime
 	
 class User(Document):
 	name = StringField()
-	total_paid = DecimalField()
+	total_paid = FloatField()
 	# email = EmailField()
 	# password = StringField()
 
 
-class Purchase(EmbeddedDocument):
-	user = ListField (EmbeddedDocumentField(User))
+# class Purchase(EmbeddedDocument):
+class Purchase(Document):
+
+	user = StringField()
 	dollar_amount = DecimalField()
 	description = StringField()
 	date = DateTimeField(default=datetime.now())
@@ -45,11 +47,12 @@ class Purchase(EmbeddedDocument):
 
 class Project(Document):
 	title = StringField()
-	purchase = ListField (EmbeddedDocumentField(Purchase)) #use .append 
-	user = ListField (EmbeddedDocumentField(User)) #ReferenceField
+	purchase = ListField(ReferenceField(Purchase)) #use .append 
+	# purchase = ListField(EmbeddedDocumentField(Purchase)) #use .append 
+	user = ListField(ReferenceField(User)) #ReferenceField
 	slug = StringField()
-	total_cost = DecimalField()
-	cost_per_person = DecimalField()
+	total_cost = FloatField()
+	cost_per_user = FloatField()
 	# start_date = DateTimeField(default=datetime.now())
 	# end_date = DateTimeField()
 	# course = StringField()  # the ITP class the project was assigned for

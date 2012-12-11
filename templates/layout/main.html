@@ -19,8 +19,8 @@
 
             /* full screen background image */
             html { 
-/*                background: url({{ url_for('static', filename='img/canyon_bg.jpg') }}) no-repeat center center fixed; 
-                -webkit-background-size: cover;
+                background: url({{ url_for('static', filename='img/cartoon-clouds.jpeg') }}) /*no-repeat center center fixed; */
+/*                -webkit-background-size: cover;
                 -moz-background-size: cover;
                 -o-background-size: cover;
                 background-size: cover;*/
@@ -30,7 +30,9 @@
             body {
                 padding-top: 20px;
                 padding-bottom: 20px;
-                background-color: pink;
+                /*background-color: pink;*/
+                background-image: url({{ url_for('static', filename='img/cartoon-clouds.jpeg') }});
+                background: rgba(255, 255,255 , 0.6);
             }
 
             /* white background */
@@ -43,7 +45,7 @@
             }
 
             div#project-collection {
-                background: rgba(255, 255, 215, 1);
+                background: rgba(255, 255, 255, 1);
             }
 
             h1.pageheader a, h1.pageheader a:hover {

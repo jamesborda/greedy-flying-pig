@@ -1,0 +1,109 @@
+{% extends "layout/main.html" %}
+
+
+{% block body %}
+
+<div class="row">
+
+	<!-- left column -->
+	<div class="span12">
+		<h2>Project: {{ project.title }}</h2>
+
+		<div class="row">
+			<div class="span6">
+
+				<h4>People:</h4>
+				<p>
+				<ul>
+				{% for user in project.user %}
+						<li>	{{ user.name }} : ${{ user.total_paid }}</li>
+				{% endfor %}
+
+				<li>
+					<form method="POST" action="/projects/{{ project.slug }}/add-user">
+					<input class="input" type="text" id="new_user" name="new_user"></td>
+					<button type="submit" class="btn btn-mini btn-success">Add</button>
+					</form>
+				</li>
+				</ul>
+				</p>
+
+			</div>
+			<div class="span6">
+
+				<p>Total Spent: ${{ project.total_cost }}</p>
+				<p>(${{ project.cost_per_user }} per person)</p>
+			</div>
+		</div>
+
+		<hr />
+
+
+		<div class="row">
+			<div class="span12">
+		<!-- A TABLE OF ALL PURCHASES -->
+
+				<p>
+					<table class="table table-condensed table-striped">
+						<thead>
+							<th>Purchase Date</th>
+							<th>Buyer</th>
+							<th>Description</th>
+							<th>$$</th>
+							<th>&nbsp;</th>
+						</thead>
+						{% for purchase in project.purchase %}
+						<tr>
+							<td>{{ purchase.date }}</td>
+							<td>{{ purchase.user }}</td>
+							<td>{{ purchase.description }}</td>
+							<td>{{ purchase.dollar_amount }}</td>
+							<td><!--buttons to edit or remove--></td>
+						<tr>
+						{% endfor %}
+						<form method="POST" action="/projects/{{ project.slug }}/add-purchase">
+						<tr>
+							<td><!-- <input class="input-small" type="text" id="date" name="date"> --></td>
+							<td><!-- <input class="input-xlarge" type="select" id="user" name="user"> -->
+
+							<select class="span2" name="user" id="user">
+								{% for user in project.user %}
+							  	<option>{{ user.name }}</option>
+							  	{% endfor %}
+							</select>
+
+							</td>
+
+							<td><input class="input-xxlarge" type="text" id="description" name="description"></td>
+							<td><input class="input-mini" type="text" id="dollar_amount" name="dollar_amount"></td>
+							<td><button type="submit" class="btn btn-mini btn-success">Add</button></td>
+						<tr>
+						</form>
+					</table>
+				</p>
+			</div>
+		</div>
+
+		<hr />
+
+		<div class="row">
+			<div class="span3 offset9">
+				<form method="POST" action="/projects/{{ project.slug }}/rectify">
+				<button type="submit" class="btn btn-large btn-success">Finished? Rectify!</button>
+				</form>
+			</div>
+		</div>
+
+
+	</div>
+
+
+	
+
+</div>
+
+{% endblock %}
+
+
+{% block styles %}{% endblock %}
+{% block scripts %}{% endblock %}

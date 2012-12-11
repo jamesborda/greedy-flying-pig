@@ -28,8 +28,10 @@ print "Connecting to MongoLabs"
 @app.route("/")
 def index():
 
+	# projects = models.Project.objects().order_by('+timestamp').limit(10)
+
 	templateData = {
-		'projects' : models.Project.objects(),
+		'projects' : models.Project.objects().order_by('slug').limit(30)
 	}
 	return render_template("main.html", **templateData)
 
@@ -41,11 +43,18 @@ def newproject():
 	# app.logger.debug('list of submitted categories')
 	# app.logger.debug(request.form.getlist('categories'))
 
+	temp_user = models.User()
+	temp_user.name = request.form.get('user','Anonymous')
+	temp_user.total_paid = 0.0
+	temp_user.save()
+
 	# get form data - create new idea
 	project = models.Project()  #JB - inside of the models.py object, we're going to get the class Idea
-	project.user = request.form.get('user','Anonymous')
+	project.user.append( temp_user )
 	project.title = request.form.get('title','No Title')
-	project.slug = slugify(project.title + " " + project.user)
+	project.slug = slugify(project.title + " " + temp_user.name )
+	project.total_cost = Decimal(5.55)
+	project.cost_per_user = 5.55
 	# idea.idea = request.form.get('idea','')
 	# idea.categories = request.form.getlist('categories')
 	
@@ -53,7 +62,7 @@ def newproject():
 
 	return redirect('/projects/%s' % project.slug)
 
-@app.route("/projects/<project_slug>") #JB - this slug can be named anything...it's just for our use
+@app.route("/projects/<project_slug>", methods=['GET','POST']) #JB - this slug can be named anything...it's just for our use
 def project_display(project_slug):
 
 	## JB - You could, e.g., @app.route("/ideas/<idea_slug>/<color>/<shape>/")
@@ -71,7 +80,51 @@ def project_display(project_slug):
 	}
 
 	# render and return the template
-	return render_template('project.html', **templateData)
+	return render_template('projects.html', **templateData)
+
+@app.route("/projects/<project_slug>/add-purchase", methods=['POST'])
+def newpurchase(project_slug):
+
+	temp_purchase = models.Purchase()
+	temp_purchase.user = request.form.get('user','Noone')
+	temp_purchase.dollar_amount = request.form.get('dollar_amount','No Amount')
+	temp_purchase.description = request.form.get('description','No Desc')
+	# temp_purchase.date = request.form.get('date','No Date')
+
+	temp_purchase.save()
+
+	project = models.Project.objects.get(slug=project_slug)
+
+	project.purchase.append(temp_purchase)
+
+	project.save()
+
+	return redirect('/projects/%s' % project.slug)
+
+@app.route("/projects/<project_slug>/add-user", methods=["POST"])
+def newperson(project_slug):
+
+	temp_person = models.User()
+	temp_person.name = request.form.get('new_user')
+	temp_person.total_paid = 0.0
+
+	temp_person.save();
+
+	project = models.Project.objects.get(slug=project_slug)
+
+	project.user.append(temp_person)
+
+	# recalculate cost per user
+	i = 0
+	for user in project.user:
+		i = i + 1
+
+	# i = count(project.user)
+	project.cost_per_user = project.total_cost / i
+
+	project.save()
+
+	return redirect('/projects/%s' % project.slug)
 
 # slugify the title 
 # via http://flask.pocoo.org/snippets/5/
@@ -82,6 +135,9 @@ def slugify(text, delim=u'-'):
 	for word in _punct_re.split(text.lower()):
 		result.extend(unidecode(word).split())
 	return unicode(delim.join(result))
+
+# def divide_by_users(float,int):
+
 
 @app.errorhandler(404)
 def page_not_found(error):
